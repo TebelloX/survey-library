@@ -1,4 +1,5 @@
 import { surveyCss } from "./defaultCss/cssstandard";
+import { Logger } from "./utils/utils";
 export class StylesManager {
   private static SurveyJSStylesSheetId = "surveyjs-styles";
 
@@ -1319,6 +1320,7 @@ export class StylesManager {
   };
 
   private sheet: CSSStyleSheet = null;
+  static Logger: Logger;
 
   static findSheet(styleSheetId: string): any {
     if (typeof document === "undefined") return null;
@@ -1341,6 +1343,9 @@ export class StylesManager {
     // style.setAttribute("media", "only screen and (max-width : 1024px)")
     style.appendChild(document.createTextNode(""));
     document.head.appendChild(style);
+    if (!!StylesManager.Logger) {
+      StylesManager.Logger.log("style sheet " + styleSheetId + " created");
+    }
     return <CSSStyleSheet>style.sheet;
   }
 
@@ -1393,6 +1398,10 @@ export class StylesManager {
           } catch (e) { }
         });
       }
+    }
+
+    if (!!StylesManager.Logger) {
+      StylesManager.Logger.log("apply theme " + themeName + " completed");
     }
   }
 
